@@ -105,6 +105,13 @@ namespace logpp
     {
 #if defined(LOGPP_PLATFORM_WINDOWS)
         return static_cast<uint32_t>(GetTickCount());
+#elif defined(LOGPP_PLATFORM_DARWIN)
+        // CLOCK_MONOTONIC is an enumerator rather than a macro on Darwin, so the #if test below
+        // cannot be used. steady_clock is monotonic here and needs no platform headers.
+        return static_cast<uint32_t>(
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now().time_since_epoch())
+                .count());
 #elif defined(LOGPP_PLATFORM_LINUX)
 #if CLOCK_MONOTONIC
         struct timespec ts;

@@ -129,7 +129,7 @@ namespace logpp
     template <typename Str, typename... Args>
     void error(const std::shared_ptr<Logger>& logger, const Str& text, Args&&... args)
     {
-        log(LogLevel::Error, text, std::forward<Args>(args)...);
+        log(logger, LogLevel::Error, text, std::forward<Args>(args)...);
     }
 
     template <typename Str, typename... Args>

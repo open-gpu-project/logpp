@@ -6,6 +6,9 @@
 #include <sys/syscall.h>
 #include <sys/types.h>
 #include <unistd.h>
+#elif defined(LOGPP_PLATFORM_DARWIN)
+#include <cstdint>
+#include <pthread.h>
 #elif defined(LOGPP_PLATFORM_WINDOWS)
 #include <windows.h>
 #include <processthreadsapi.h>
@@ -24,6 +27,20 @@ namespace logpp::thread_utils
     inline long toInteger(id id)
     {
         return static_cast<long>(id);
+    }
+#elif defined(LOGPP_PLATFORM_DARWIN)
+    using id = uint64_t;
+
+    inline id getCurrentId()
+    {
+        uint64_t tid = 0;
+        pthread_threadid_np(nullptr, &tid);
+        return tid;
+    }
+
+    inline uint64_t toInteger(id id)
+    {
+        return id;
     }
 #elif defined(LOGPP_PLATFORM_WINDOWS)
     using id = DWORD;

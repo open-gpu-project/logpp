@@ -85,6 +85,7 @@ namespace logpp
                     });
             }
             m_defaultLoggerFactory = factory;
+            m_defaultLogger        = std::invoke(factory, name);
         }
 
         auto it = m_loggerFactories.insert(std::make_pair(std::move(name), std::move(factory)));
