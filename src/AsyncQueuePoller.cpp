@@ -4,6 +4,7 @@
 
 #include "SpinWait.h"
 
+#include <algorithm>
 
 namespace logpp
 {
